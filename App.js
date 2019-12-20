@@ -135,6 +135,16 @@ export default function ButtonAppBar() {
 
 
   /* -------------- My Changes ---------------*/
+  // Function for handling form submissions.
+  const handleSubmissionSingle = (event) => {
+    // Handle the form submission.
+  }
+
+  const handleSubmissionTeam = (event) => {
+    // Handle the form submission.
+  }
+  //------------------------------------------
+
   // Logic for switching the form between team & single register.
   const [singleRegister, setSingleRegister] = React.useState(true)
   const handleRegisterTypeChange = () => {
@@ -155,11 +165,11 @@ export default function ButtonAppBar() {
                 </Toolbar>
               </AppBar>
               
-              <form className={classes.root} noValidate autoComplete="off">
-                <TextField id="name-single" label="Name" variant="outlined" fullWidth={true} />
-                <TextField id="id-single" label="Id" variant="outlined" fullWidth={true} />
+              <form className={classes.root} Validate autoComplete="off" onSubmit={handleSubmissionSingle} >
+                <TextField id="name-single" label="Name" variant="outlined" fullWidth={true} required />
+                <TextField id="id-single" label="Email" type="email" variant="outlined" fullWidth={true} required />
                 {/*Dropdopwn for events*/}
-                <InputLabel id="mutiple-event-label">Events</InputLabel>
+                <InputLabel id="mutiple-event-label">Events*</InputLabel>
                 <Select
                   labelId="mutiple-event-label"
                   id="mutiple-events"
@@ -168,6 +178,7 @@ export default function ButtonAppBar() {
                   onChange={handleChangeMultiple}
                   input={<Input />}
                   fullWidth={true}
+                  required
                 >
                   {sportsEvents.map(event=> (
                     <MenuItem key={event} value={event}>
@@ -176,14 +187,18 @@ export default function ButtonAppBar() {
                   ))}
                 </Select>
                 {/*-------------------*/}
-                <TextField id="college-single" label="College" variant="outlined" fullWidth={true} />
+                <TextField id="college-single" label="College" variant="outlined" fullWidth={true} required />
                 <FormControlLabel id="stay-single" control={<Checkbox value="checkedA" fullWidth={true} />}
                   label="Check here if you need accommodation"
                 />
+                {/*---Submit button---*/}
+                <Button variant="contained" color="secondary" type="submit">
+                  Submit
+                </Button>
+                {/*------------------*/}
               </form>
             
             </div>
-            
           </Paper>
         </Grid>
       )
@@ -200,13 +215,15 @@ export default function ButtonAppBar() {
                   </Toolbar>
                 </AppBar>
 
-                <form className={classes.root} noValidate autoComplete="off">
-                  <TextField id="name-team-leader" label="Name (Leader)" variant="outlined" fullWidth={true} />
+                <form className={classes.root} Validate autoComplete="off" onSubmit={handleSubmissionTeam}>
+                  <TextField id="name-team-leader" label="Name (Leader)" variant="outlined" fullWidth={true} required />
+                  <TextField id="id-team" label="Email (Leader)" type="email" variant="outlined" fullWidth={true} required />
                   <TextField id="number-team-member" label="Members count (excluding leader)" variant="outlined" 
-                  type="number" InputProps={{ inputProps: { min: 1} }} fullWidth={true} value={additionalTeamMembers} onChange={handleTeamNumberChange} />
+                  type="number" InputProps={{ inputProps: { min: 1} }} fullWidth={true} value={additionalTeamMembers}
+                  onChange={handleTeamNumberChange} required />
                   {generateNameFields(additionalTeamMembers)}
                   {/*Dropdopwn for events*/}
-                  <InputLabel id="mutiple-event-label">Events</InputLabel>
+                  <InputLabel id="mutiple-event-label">Events*</InputLabel>
                   <Select
                     labelId="mutiple-event-label"
                     id="mutiple-events"
@@ -215,6 +232,7 @@ export default function ButtonAppBar() {
                     onChange={handleChangeMultiple}
                     input={<Input />}
                     fullWidth={true}
+                    required
                   >
                     {sportsEvents.map(event=> (
                       <MenuItem key={event} value={event}>
@@ -223,11 +241,15 @@ export default function ButtonAppBar() {
                     ))}
                   </Select>
                   {/*-------------------*/}
-                  <TextField id="id-team" label="Id" variant="outlined" fullWidth={true} />
-                  <TextField id="college-team" label="College" variant="outlined" fullWidth={true} />
+                  <TextField id="college-team" label="College" variant="outlined" fullWidth={true} required />
                   <FormControlLabel control={<Checkbox value="checkedA" fullWidth={true} />}
                     label="Check here if you need accommodation"
                   />
+                  {/*---Submit button---*/}
+                  <Button variant="contained" color="secondary" type="submit">
+                    Submit
+                  </Button>
+                  {/*------------------*/}
                 </form>
               </div>
           </Paper>
@@ -246,7 +268,10 @@ export default function ButtonAppBar() {
   const generateNameFields = (num) => {
     const inputFields = []
     for (let i = 0; i < num; i++)
-      inputFields.push(<TextField key={i} id={`member-name${i+1}`} label={`Member ${i+1}`} variant="outlined" fullWidth={true} />)
+      inputFields.push(
+        <TextField key={i} id={`member-name${i+1}`} label={`Member ${i+1} name`}
+        variant="outlined" fullWidth={true} required />
+      )
     return inputFields
   }
 
@@ -265,7 +290,7 @@ export default function ButtonAppBar() {
 
   const handleChangeMultiple = event => {
     setChoosenEvents(event.target.value)
-    console.log(choosenEvents)
+    // console.log(choosenEvents)
     // console.log(event.target.value)
   };
 
@@ -337,9 +362,7 @@ export default function ButtonAppBar() {
           </Typography>
         </CardContent>
         </Card>  
-      </Paper>
-
-      
+      </Paper>      
     </ThemeProvider>    
   );
 }
