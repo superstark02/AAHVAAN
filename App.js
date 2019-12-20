@@ -15,31 +15,12 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-
-const events = [
-  {
-    value: '1',
-    label: 'EVENT 1',
-  },
-  {
-    value: '2',
-    label: 'EVENT 2',
-  },
-  {
-    value: '3',
-    label: 'EVENT 1',
-  },
-  {
-    value: '4',
-    label: 'EVENT 1',
-  },
-];
+import zIndex from '@material-ui/core/styles/zIndex';
 
 const images = [
   'http://www.icons101.com/icon_png/size_256/id_76704/Google_Settings.png',
@@ -74,6 +55,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    zIndex: 1,
+    color: 'white',
+    opcaity:1,
   },
   card: {
     minWidth: 275,
@@ -110,6 +94,29 @@ const useStyles = makeStyles(theme => ({
       width: 200,
     },
   },
+  TextField: {
+    margin: 10,
+  },
+  overlay: {
+    position:'absolute',
+    width: '100%',
+    height: '90vh',
+    backgroundColor:'black',
+    zIndex:1,
+    opacity:0.5,
+  },
+  textcontainer: {
+    padding: '16px 32px',
+    position: 'absolute',
+    marginLeft:650,
+    marginTop:300,
+    color: 'white',
+    border: 'solid',
+    borderColor:'white',
+    opcaity:1,
+    borderWidth: 'thick ',
+    zIndex: 2,
+  }
 }));
 
 export default function ButtonAppBar() {
@@ -268,10 +275,7 @@ export default function ButtonAppBar() {
   const generateNameFields = (num) => {
     const inputFields = []
     for (let i = 0; i < num; i++)
-      inputFields.push(
-        <TextField key={i} id={`member-name${i+1}`} label={`Member ${i+1} name`}
-        variant="outlined" fullWidth={true} required />
-      )
+      inputFields.push(<TextField key={i} id={`member-name${i+1}`} label={`Member ${i+1}`} variant="outlined" fullWidth={true} />)
     return inputFields
   }
 
@@ -290,7 +294,7 @@ export default function ButtonAppBar() {
 
   const handleChangeMultiple = event => {
     setChoosenEvents(event.target.value)
-    // console.log(choosenEvents)
+    console.log(choosenEvents)
     // console.log(event.target.value)
   };
 
@@ -307,12 +311,15 @@ export default function ButtonAppBar() {
         </Toolbar>
       </AppBar>
     </div>
+    <div className={classes.textcontainer}><Typography variant="h1" className={classes.title} align='center' color="textPrimary">AAHVAAN</Typography></div>
+    <div className={classes.overlay}>
+    </div>
     <Paper>
       <Gallery
         style={{
           background: "grey",
           height: "90vh",
-          width: '100%'
+          width: '100%',
         }}
         index={index}
         onRequestChange={i => {
@@ -320,7 +327,7 @@ export default function ButtonAppBar() {
         }}
       >
         {images.map(image => (
-          <GalleryImage objectFit="contain" key={image} src={image} />
+          <GalleryImage objectFit="contain" key={image} src={image} class="image"/>
         ))}
       </Gallery>
     </Paper>
@@ -335,7 +342,7 @@ export default function ButtonAppBar() {
     </div>
 
     {/*---------My Changes-------------*/}
-    <Button variant="contained" color="secondary" onClick={handleRegisterTypeChange}>
+    <Button variant="contained" color="secondary" onClick={handleRegisterTypeChange} className={classes.TextField}>
       Register for {singleRegister ? 'team' : 'single player'} instead
     </Button>
     <Grid container spacing={0}>
@@ -362,7 +369,9 @@ export default function ButtonAppBar() {
           </Typography>
         </CardContent>
         </Card>  
-      </Paper>      
+      </Paper>
+
+      
     </ThemeProvider>    
   );
 }
